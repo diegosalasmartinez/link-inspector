@@ -1,7 +1,11 @@
+---
+import CopyIcon from "./CopyIcon.astro";
+---
+
 <div class="space-y-4 mt-10 max-w-[850px] px-8 mx-auto">
   <!-- Header -->
   <header class="text-center mb-10">
-    <h1 class="text-4xl font-bold text-gray-800 mb-2">🔍 URL Inspector</h1>
+    <h1 class="text-4xl font-bold text-gray-900 mb-2">🔍 URL Inspector</h1>
     <p class="text-gray-600">Analyze and inspect any URL with full details</p>
   </header>
 
@@ -23,28 +27,41 @@
     </div>
   </form>
 
-  <!-- Error -->
-  <div id="error" class="text-red-500"></div>
-
   <!-- Report -->
   <section id="report" class="hidden mt-10">
     <div>
-      <strong id="url-encoded-label"></strong>
-      <button
-        id="url-encoded-button"
-        class="text-sm px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+      <strong
+        id="url-encoded-label"
+        class="text-gray-900 text-sm uppercase tracking-wide"
       >
-        Copy
-      </button>
+      </strong>
     </div>
-    <div class="bg-gray-100 rounded-md px-4 py-2 mt-2">
-      <span id="url-encoded-value" class="break-all"></span>
+
+    <div
+      class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 mt-2 relative group shadow-sm transition-shadow hover:shadow-md"
+    >
+      <span
+        id="url-encoded-value"
+        class="break-all text-gray-800 text-sm leading-relaxed select-all"
+      ></span>
+
+      <div
+        class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+      >
+        <button
+          id="url-encoded-button"
+          class="bg-white hover:bg-gray-100 border border-gray-300 px-2 py-1 rounded-md shadow-sm hover:shadow-md transition-all duration-200"
+          aria-label="Copy to clipboard"
+        >
+          <CopyIcon />
+        </button>
+      </div>
     </div>
   </section>
 
-  <!-- UTMs Table-->
-  <section id="utms" class="space-y-4 mt-10">
-    <strong>UTMs</strong>
+  <!-- Query Params Table-->
+  <section id="query-params" class="space-y-4 mt-10">
+    <strong class="text-gray-800">Query Parameters</strong>
     <table
       class="table-auto border-collapse border border-gray-300 text-sm w-full mt-2"
     >
@@ -54,24 +71,27 @@
           <th class="border px-4 py-2">Raw Value</th>
         </tr>
       </thead>
-      <tbody id="utms-table-body"></tbody>
+      <tbody id="query-params-table-body"></tbody>
 
-      <p id="utms-no-results">No query parameters found.</p>
+      <p id="query-params-no-results">No query parameters found.</p>
     </table>
   </section>
+
+  <!-- Error -->
+  <div id="error" class="text-red-500"></div>
 </div>
 
 <script type="module">
   const form = document.getElementById("url-form");
   const input = document.getElementById("url-input");
   const report = document.getElementById("report");
-  const utms = document.getElementById("utms");
+  const queryParams = document.getElementById("query-params");
   const errorDiv = document.getElementById("error");
   const urlEncodedLabel = document.getElementById("url-encoded-label");
   const urlEncodedValue = document.getElementById("url-encoded-value");
   const urlEncodedButton = document.getElementById("url-encoded-button");
-  const utmsTableBody = document.getElementById("utms-table-body");
-  const utmsNoResults = document.getElementById("utms-no-results");
+  const utmsTableBody = document.getElementById("query-params-table-body");
+  const utmsNoResults = document.getElementById("query-params-no-results");
 
   const utmsRowStyles = ["border", "px-4", "py-2"];
 
@@ -111,7 +131,7 @@
         // Remove "no results message"
         utmsNoResults.classList.add("hidden");
 
-        // Remove current utms
+        // Remove current query-params
         utmsTableBody.replaceChildren();
 
         // We add each query param to the table
@@ -137,16 +157,16 @@
         utmsNoResults.classList.remove("hidden");
       }
 
-      // Show utms section
-      utms.classList.remove("hidden");
+      // Show query-params section
+      queryParams.classList.remove("hidden");
     } catch (err) {
       console.log("error", err);
 
       errorDiv.textContent = "Invalid URL";
 
-      // Hide report and utms section
+      // Hide report and query-params section
       report.classList.add("hidden");
-      utms.classList.add("hidden");
+      queryParams.classList.add("hidden");
     }
   };
 
