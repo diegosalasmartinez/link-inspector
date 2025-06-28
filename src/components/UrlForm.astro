@@ -1,0 +1,165 @@
+<div class="space-y-4 mt-10 max-w-[850px] px-8 mx-auto">
+  <!-- Header -->
+  <header class="text-center mb-10">
+    <h1 class="text-4xl font-bold text-gray-800 mb-2">🔍 URL Inspector</h1>
+    <p class="text-gray-600">Analyze and inspect any URL with full details</p>
+  </header>
+
+  <!-- Form -->
+  <form id="url-form" class="space-x-4">
+    <div class="flex flex-col gap-2 w-full">
+      <input
+        id="url-input"
+        name="url"
+        class="border border-gray-300 px-4 py-2 w-full rounded"
+        placeholder="Enter a URL..."
+      />
+      <button
+        type="submit"
+        class="bg-[#0c3b5c] text-white text-sm px-4 py-2 rounded hover:bg-[#2a99c9] mt-1 hover:cursor-pointer transition-colors duration-300"
+      >
+        Inspect
+      </button>
+    </div>
+  </form>
+
+  <!-- Error -->
+  <div id="error" class="text-red-500"></div>
+
+  <!-- Report -->
+  <section id="report" class="hidden mt-10">
+    <div>
+      <strong id="url-encoded-label"></strong>
+      <button
+        id="url-encoded-button"
+        class="text-sm px-2 py-1 bg-gray-200 rounded hover:bg-gray-300"
+      >
+        Copy
+      </button>
+    </div>
+    <div class="bg-gray-100 rounded-md px-4 py-2 mt-2">
+      <span id="url-encoded-value" class="break-all"></span>
+    </div>
+  </section>
+
+  <!-- UTMs Table-->
+  <section id="utms" class="space-y-4 mt-10">
+    <strong>UTMs</strong>
+    <table
+      class="table-auto border-collapse border border-gray-300 text-sm w-full mt-2"
+    >
+      <thead>
+        <tr>
+          <th class="border px-4 py-2">Key</th>
+          <th class="border px-4 py-2">Raw Value</th>
+        </tr>
+      </thead>
+      <tbody id="utms-table-body"></tbody>
+
+      <p id="utms-no-results">No query parameters found.</p>
+    </table>
+  </section>
+</div>
+
+<script type="module">
+  const form = document.getElementById("url-form");
+  const input = document.getElementById("url-input");
+  const report = document.getElementById("report");
+  const utms = document.getElementById("utms");
+  const errorDiv = document.getElementById("error");
+  const urlEncodedLabel = document.getElementById("url-encoded-label");
+  const urlEncodedValue = document.getElementById("url-encoded-value");
+  const urlEncodedButton = document.getElementById("url-encoded-button");
+  const utmsTableBody = document.getElementById("utms-table-body");
+  const utmsNoResults = document.getElementById("utms-no-results");
+
+  const utmsRowStyles = ["border", "px-4", "py-2"];
+
+  const processUrl = (raw) => {
+    try {
+      const encoded = encodeURIComponent(raw);
+      const decoded = decodeURIComponent(raw);
+      const isEncoded = decoded !== raw;
+      const url = isEncoded ? new URL(decoded) : new URL(raw);
+
+      // Saving last url for future session
+      localStorage.setItem(lastUrlStorageKey, url);
+
+      // Clear error div because url is valid
+      errorDiv.textContent = "";
+
+      // Set url encoded and decoded values
+      if (isEncoded) {
+        urlEncodedLabel.textContent = "URL Decoded";
+        urlEncodedValue.textContent = decoded;
+      } else {
+        urlEncodedLabel.textContent = "URL Encoded";
+        urlEncodedValue.textContent = encoded;
+      }
+
+      // Copy value to clipboard on click button
+      urlEncodedButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(url.href);
+      });
+
+      // Show report section
+      report.classList.remove("hidden");
+
+      const params = Array.from(url.searchParams.entries());
+      if (params.length > 0) {
+        // Remove "no results message"
+        utmsNoResults.classList.add("hidden");
+
+        // Remove current utms
+        utmsTableBody.replaceChildren();
+
+        // We add each query param to the table
+        for (const param of params) {
+          const trElement = document.createElement("tr");
+
+          // First column
+          const tdKeyElement = document.createElement("td");
+          tdKeyElement.innerText = param[0];
+          tdKeyElement.classList.add(...utmsRowStyles);
+          // Second column
+          const tdValueElement = document.createElement("td");
+          tdValueElement.innerText = param[1];
+          tdValueElement.classList.add(...utmsRowStyles);
+
+          trElement.appendChild(tdKeyElement);
+          trElement.appendChild(tdValueElement);
+
+          utmsTableBody.appendChild(trElement);
+        }
+      } else {
+        // Show no results message
+        utmsNoResults.classList.remove("hidden");
+      }
+
+      // Show utms section
+      utms.classList.remove("hidden");
+    } catch (err) {
+      console.log("error", err);
+
+      errorDiv.textContent = "Invalid URL";
+
+      // Hide report and utms section
+      report.classList.add("hidden");
+      utms.classList.add("hidden");
+    }
+  };
+
+  const lastUrlStorageKey = "last_url";
+  const lastUrl = localStorage.getItem(lastUrlStorageKey);
+  if (lastUrl) {
+    input.value = lastUrl;
+    processUrl(lastUrl);
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const raw = input.value.trim();
+    processUrl(raw);
+  });
+</script>
