@@ -24,19 +24,20 @@ export const processUrl = (raw) => {
     // Clear error div because url is valid
     errorDiv.textContent = "";
 
+    let valueToCopy;
     // Set url encoded and decoded values
     if (isEncoded) {
       urlEncodedLabel.textContent = "URL Decoded";
-      urlEncodedValue.textContent = decoded;
+      urlEncodedValue.textContent = valueToCopy = decoded;
     } else {
       urlEncodedLabel.textContent = "URL Encoded";
-      urlEncodedValue.textContent = encoded;
+      urlEncodedValue.textContent = valueToCopy = encoded;
     }
 
     // Copy value to clipboard on click button
     urlEncodedButton.addEventListener("click", (e) => {
       e.stopPropagation();
-      navigator.clipboard.writeText(url.href);
+      navigator.clipboard.writeText(valueToCopy);
     });
 
     // Show report section
