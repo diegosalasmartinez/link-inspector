@@ -1,0 +1,4 @@
+name="link-inspector-api"
+main="index.ts"
+compatibility_date="2025-06-28"
+compatibility_flags=["nodejs_compat"]
