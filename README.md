@@ -1,48 +1,69 @@
-# Astro Starter Kit: Basics
+# 🔍 Link Inspector
 
-```sh
-pnpm create astro@latest -- --template basics
+Link Inspector is a simple and fast tool to analyze, decode, and inspect URLs and query parameters. Paste any URL and instantly see its encoded form and all query parameters, with copy-to-clipboard functionality and a clean, modern UI built with Astro and Tailwind CSS.
+![screenshot](public/og-image.png)
+
+## 🚀 Tech Stack
+
+- [Astro](https://astro.build/) — Static site generator
+- [Tailwind CSS](https://tailwindcss.com/) — Utility-first CSS framework
+- Vanilla JS (modular with ESModules)
+
+## 📦 Project Structure
+
 ```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
+├── public/               # Static assets (favicon, scripts, preview images)
 ├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/       # Reusable Astro components (e.g. CopyIcon)
+│   ├── layouts/          # Base layout template
+│   └── pages/            # Page routes (e.g. index.astro)
+├── scripts/              # Public JavaScript modules
+├── package.json
+└── astro.config.mjs
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## 🔧 Requirements
 
-## 🧞 Commands
+- **Node.js:** `^22.0.0`
+- **Package Manager:** `pnpm` (recommended)
 
-All commands are run from the root of the project, from a terminal:
+## 🧪 Local Development
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+```bash
+pnpm install       # Install dependencies
+pnpm dev           # Start local dev server (http://localhost:4321)
+```
 
-## 👀 Want to learn more?
+## 🏗 Build for Production
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+pnpm build
+pnpm preview       # Preview the build locally
+```
+
+## 🌐 Deployment
+
+You can deploy this site to any static host like:
+
+- Vercel
+- Netlify
+- GitHub Pages
+- Cloudflare Pages
+
+## ✅ Features
+
+- 🔐 Encodes/decodes full URLs
+- 📊 Lists all query parameters
+- 📋 One-click copy for values
+- 🧼 Clean and responsive UI
+- ⚡ Fast static build with Astro
+
+## 📝 TODO
+
+- [x] Encode and decode URL
+- [x] Display query parameters
+- [x] Copy to clipboard button
+- [ ] Add "Copied!" tooltip
+- [ ] Support dark mode
+- [ ] Save recent URLs
+- [ ] Make shareable link
