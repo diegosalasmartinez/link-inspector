@@ -5,22 +5,32 @@ import CopyIcon from "./CopyIcon.astro";
 <div class="space-y-4 mt-10 max-w-[850px] px-8 mx-auto">
   <!-- Header -->
   <header class="text-center mb-10">
-    <h1 class="text-4xl font-bold text-gray-900 mb-2">🔍 URL Inspector</h1>
-    <p class="text-gray-600">Analyze and inspect any URL with full details</p>
+    <h1
+      class="text-4xl font-extrabold text-gray-900 mb-3 tracking-tight leading-tight"
+    >
+      🔍 URL Inspector
+    </h1>
+    <p class="text-gray-600 text-base sm:text-lg max-w-xl mx-auto">
+      Analyze and inspect any URL with full details
+    </p>
   </header>
 
   <!-- Form -->
-  <form id="url-form" class="space-x-4">
-    <div class="flex flex-col gap-2 w-full">
+  <form id="url-form" class="w-full mx-auto">
+    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
       <input
         id="url-input"
         name="url"
-        class="border border-gray-300 px-4 py-2 w-full rounded"
-        placeholder="Enter a URL..."
+        type="url"
+        inputmode="url"
+        autocomplete="off"
+        class="flex-1 border border-gray-300 rounded-md px-4 py-2 text-sm text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#2a99c9] focus:border-transparent transition-all"
+        placeholder="Enter a URL…"
+        required
       />
       <button
         type="submit"
-        class="bg-[#0c3b5c] text-white text-sm px-4 py-2 rounded hover:bg-[#2a99c9] mt-1 hover:cursor-pointer transition-colors duration-300"
+        class="bg-[#0c3b5c] text-white text-sm font-medium px-5 py-2 rounded-md hover:bg-[#2a99c9] shadow-sm hover:shadow-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-[#2a99c9]"
       >
         Inspect
       </button>
@@ -59,22 +69,30 @@ import CopyIcon from "./CopyIcon.astro";
     </div>
   </section>
 
-  <!-- Query Params Table-->
-  <section id="query-params" class="space-y-4 mt-10">
-    <strong class="text-gray-800">Query Parameters</strong>
-    <table
-      class="table-auto border-collapse border border-gray-300 text-sm w-full mt-2"
-    >
-      <thead>
-        <tr>
-          <th class="border px-4 py-2">Key</th>
-          <th class="border px-4 py-2">Raw Value</th>
-        </tr>
-      </thead>
-      <tbody id="query-params-table-body"></tbody>
+  <!-- Query Params Table -->
+  <section id="query-params" class="space-y-4 mt-10 max-w-3xl mx-auto">
+    <strong class="text-gray-900 text-sm uppercase tracking-wide">
+      Query Parameters
+    </strong>
 
-      <p id="query-params-no-results">No query parameters found.</p>
-    </table>
+    <div
+      class="overflow-x-auto rounded-lg border border-gray-200 shadow-sm mt-2"
+    >
+      <table class="table-auto w-full text-sm text-left text-gray-700">
+        <thead class="bg-gray-50 border-b border-gray-200">
+          <tr>
+            <th class="px-4 py-2 font-semibold text-gray-800">Key</th>
+            <th class="px-4 py-2 font-semibold text-gray-800">Raw Value</th>
+          </tr>
+        </thead>
+        <tbody id="query-params-table-body"> </tbody>
+      </table>
+    </div>
+
+    <!-- Mensaje cuando no hay parámetros -->
+    <p id="query-params-no-results" class="text-gray-500 text-sm italic hidden">
+      No query parameters found.
+    </p>
   </section>
 
   <!-- Error -->
@@ -92,8 +110,6 @@ import CopyIcon from "./CopyIcon.astro";
   const urlEncodedButton = document.getElementById("url-encoded-button");
   const utmsTableBody = document.getElementById("query-params-table-body");
   const utmsNoResults = document.getElementById("query-params-no-results");
-
-  const utmsRowStyles = ["border", "px-4", "py-2"];
 
   const processUrl = (raw) => {
     try {
@@ -136,21 +152,23 @@ import CopyIcon from "./CopyIcon.astro";
 
         // We add each query param to the table
         for (const param of params) {
-          const trElement = document.createElement("tr");
+          const tr = document.createElement("tr");
+          tr.className =
+            "hover:bg-gray-50 transition-colors border-b border-gray-100";
 
           // First column
-          const tdKeyElement = document.createElement("td");
-          tdKeyElement.innerText = param[0];
-          tdKeyElement.classList.add(...utmsRowStyles);
+          const tdKey = document.createElement("td");
+          tdKey.className = "px-4 py-2 font-medium text-gray-800";
+          tdKey.innerText = param[0];
           // Second column
-          const tdValueElement = document.createElement("td");
-          tdValueElement.innerText = param[1];
-          tdValueElement.classList.add(...utmsRowStyles);
+          const tdValue = document.createElement("td");
+          tdValue.className = "px-4 py-2 text-gray-600";
+          tdValue.innerText = param[1];
 
-          trElement.appendChild(tdKeyElement);
-          trElement.appendChild(tdValueElement);
+          tr.appendChild(tdKey);
+          tr.appendChild(tdValue);
 
-          utmsTableBody.appendChild(trElement);
+          utmsTableBody.appendChild(tr);
         }
       } else {
         // Show no results message
