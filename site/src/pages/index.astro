@@ -1,9 +1,17 @@
 ---
 import "../styles/global.css";
-import UrlForm from '../components/UrlForm.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "../layouts/Header.astro";
+import UrlForm from "../components/UrlForm.astro";
+import Metadata from "../components/Metadata.astro";
 ---
 
 <Layout>
+  <div class="space-y-4 mt-10 max-w-[850px] px-8 mx-auto">
+    <Header />
     <UrlForm />
+    <Metadata />
+  </div>
 </Layout>
+
+<script src="../scripts/main.js"></script>

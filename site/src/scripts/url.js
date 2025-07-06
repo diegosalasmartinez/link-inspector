@@ -1,3 +1,4 @@
+import { processMetadata } from "./metadata";
 import { createTableRow } from "./table";
 
 const report = document.getElementById("report");
@@ -11,12 +12,15 @@ const utmsNoResults = document.getElementById("query-params-no-results");
 
 export const lastUrlStorageKey = "last_url";
 
-export const processUrl = (raw) => {
+export const processUrl = async (raw) => {
   try {
     const encoded = encodeURIComponent(raw);
     const decoded = decodeURIComponent(raw);
     const isEncoded = decoded !== raw;
     const url = isEncoded ? new URL(decoded) : new URL(raw);
+
+    // Async
+    processMetadata(url.href);
 
     // Saving last url for future session
     localStorage.setItem(lastUrlStorageKey, url);
@@ -43,6 +47,7 @@ export const processUrl = (raw) => {
     // Show report section
     report.classList.remove("hidden");
 
+    utmsTableBody.replaceChildren();
     const params = Array.from(url.searchParams.entries());
     if (params.length > 0) {
       // Remove "no results message"
