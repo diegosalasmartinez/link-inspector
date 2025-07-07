@@ -50,7 +50,7 @@ function getHeaders() {
         // IMPORTANT: This line have to be commented when deploy a new version
         // This is only for local testing (npx wrangler dev)
         //"Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Origin": "https://link-inspector.pages.dev/",
+        "Access-Control-Allow-Origin": "https://link-inspector.pages.dev",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
     };
