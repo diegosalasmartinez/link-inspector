@@ -4,6 +4,23 @@
     SEO & Social Metadata
   </strong>
 
+  <!-- Loading State -->
+  <div
+    id="seo-loading"
+    class="hidden rounded-lg border border-gray-200 mt-2 bg-white shadow-sm p-8 text-center"
+  >
+    <div class="inline-block w-6 h-6 border-2 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+    <p class="text-sm text-gray-500 mt-2">Loading metadata...</p>
+  </div>
+
+  <!-- Error State -->
+  <div
+    id="seo-error"
+    class="hidden rounded-lg border border-red-200 mt-2 bg-red-50 shadow-sm p-5 text-center"
+  >
+    <p class="text-sm text-red-600">Could not load metadata for this URL</p>
+  </div>
+
   <div
     class="rounded-lg border border-gray-200 mt-2 bg-white shadow-sm p-5 flex flex-col gap-4 md:flex-row md:items-start hover:shadow-md"
     id="seo-preview-card"
