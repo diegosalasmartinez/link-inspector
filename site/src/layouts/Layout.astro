@@ -1,20 +1,44 @@
+---
+const title = "Link Inspector – Free URL Decoder & Query Parameter Analyzer";
+const description = "Free online tool to decode URLs, extract query parameters, and preview SEO metadata. Inspect UTM tags, debug tracking links, and see how URLs appear on social media.";
+const url = "https://link-inspector.pages.dev";
+const image = `${url}/og-image.png`;
+---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={url} />
     <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content="Inspect and analyze any URL in seconds. Decode parameters and see full query insights."
-    />
-    <meta
-      name="keywords"
-      content="url decoder, query params, url inspector, analyze url"
-    />
+
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="url decoder, url encoder, query parameter extractor, utm analyzer, link debugger, seo preview, open graph checker, twitter card validator, url parser, tracking link inspector, decode url online, free url tool" />
     <meta name="author" content="Diego Salas" />
-    <title>Link Inspector</title>
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:site_name" content="Link Inspector" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={url} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#0c3b5c" />
   </head>
   <body>
     <slot />
